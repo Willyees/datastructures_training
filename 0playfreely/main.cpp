@@ -8,6 +8,9 @@
 #include <queue>
 #include <map>
 #include "excercises.h"
+#include "array.h"
+#include "array_stack.h"
+#include <algorithm>
 
 //declaring functions where are contained the excercises (extern is not needed, but gives a better idea)
 namespace tut {
@@ -50,9 +53,11 @@ struct a {
 struct c : a{
 	void f();
 };
-int main() {
 
-	cout << ex::str_parenthesis_is_balanced("{()()") << endl;
+
+int main() {
+	
+	FastArrayStack<int> i;
 	//remove items from vector
 	//vec.erase(std::remove(vec.begin(), vec.end(), &o), vec.end()); //erase by value
 
