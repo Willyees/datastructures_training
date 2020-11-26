@@ -9,7 +9,7 @@ private:
 	T* _pos = nullptr;
 
 public:
-	size_t _size;
+	size_t size;
 
 	Array();
 	Array(size_t size);
@@ -18,6 +18,10 @@ public:
 	Array<T>* operator=(Array<T>&& b);
 	Array<T>* operator=(Array<T>& b);//not using copy, it references the move operator
 	T* operator+(int i);
+
+	//debug
+	void d_get_size_a();
+	void d_get_structure_a();
 };
 
 /*
@@ -28,7 +32,7 @@ Array<T>::Array() {
 }
 
 template<class T>
-Array<T>::Array(size_t size) : _size(size) {
+Array<T>::Array(size_t size) : size(size) {
 	std::cout << "size_t constr" << std::endl;
 	_pos = new T[size];
 }
@@ -36,7 +40,7 @@ Array<T>::Array(size_t size) : _size(size) {
 //operators overloading
 template<class T>
 T& Array<T>::operator[](int i) {
-	assert(i < _size && i >= 0);
+	assert(i < size && i >= 0);
 	return _pos[i];
 }
 
@@ -53,11 +57,23 @@ Array<T>* Array<T>::operator=(Array<T>&& b) {
 		delete[] _pos;
 	_pos = b._pos;
 	b._pos = nullptr;
-	_size = b._size;
+	size = b.size;
 	return this;
 }
 
 template<class T>
 Array<T>* Array<T>::operator=(Array<T>& b) {
 	return *this = std::move(b);
+}
+
+template<class T>
+void Array<T>::d_get_size_a() { std::cout << size << std::endl; }
+
+//DEBUG
+template<class T>
+void Array<T>::d_get_structure_a() {
+	std::cout << "-----" << std::endl;
+	for (T* i = _pos; i != (_pos + size); ++i)
+		std::cout << *i << std::endl;
+	std::cout << "-----" << std::endl;
 }

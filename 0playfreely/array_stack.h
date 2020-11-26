@@ -42,7 +42,7 @@ T ArrayStack<T>::set(int index, T x) {
 template<class T>
 void ArrayStack<T>::add(int index, T x) {
 	//check that the backing array is not full. otherwise resize it
-	if (a._size < _n_elements + 1)
+	if (a.size < _n_elements + 1)
 		resize();
 	//shift elements 1 position O(n - index). best to do reversed, not as much temporary variables
 	//loop starts from last element + 1 in the ArrayStack: should be something like garbage value, and it will be overwritten. This is different from the inner array last index
@@ -63,7 +63,7 @@ T ArrayStack<T>::remove(int index) {
 	}
 	_n_elements--;
 	//checking if many positions are empty, then resize
-	if (a._size >= 3 * _n_elements)
+	if (a.size >= 3 * _n_elements)
 		resize();
 	return x;
 }
@@ -71,9 +71,9 @@ T ArrayStack<T>::remove(int index) {
 template<class T>
 void ArrayStack<T>::resize() {
 	//setting size to 1 in case the size was 0
-	Array<T> b(std::max((int) a._size * 2, 1));
+	Array<T> b(std::max((int) a.size * 2, 1));
 	//deep copy for each element
-	for (int i = 0; i < a._size; ++i) {
+	for (int i = 0; i < a.size; ++i) {
 		b[i] = a[i];
 	}
 	a = b;
@@ -99,7 +99,7 @@ void FastArrayStack<T>::resize() {
 
 template<class T>
 void FastArrayStack<T>::add(int index, T x) {
-	if (_n_elements + 1 > a._size)
+	if (_n_elements + 1 > a.size)
 		resize();
 	std::copy_backward(a + index, a + _n_elements, a + index + 1);//[first, last) : first included, last not included
 	a[index] = x;
@@ -111,7 +111,7 @@ T FastArrayStack<T>::remove(int index) {
 	T x = a[index];
 	std::copy(a + index + 1, a + _n_elements, a + index);
 	_n_elements--;
-	if (a._size > 3 * _n_elements)
+	if (a.size > 3 * _n_elements)
 		resize();
 	return x;
 }

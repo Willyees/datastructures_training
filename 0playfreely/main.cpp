@@ -10,6 +10,7 @@
 #include "excercises.h"
 #include "array.h"
 #include "array_stack.h"
+#include "array_queue.h"
 #include <algorithm>
 
 //declaring functions where are contained the excercises (extern is not needed, but gives a better idea)
@@ -56,7 +57,6 @@ struct c : a{
 
 
 int main() {
-	
 	//remove items from vector
 	//vec.erase(std::remove(vec.begin(), vec.end(), &o), vec.end()); //erase by value
 
