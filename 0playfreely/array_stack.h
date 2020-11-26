@@ -13,8 +13,8 @@ public:
 	int size();
 	T get(int index);
 	T set(int index, T x);
-	void add(int index, T x);
-	T remove(int index);
+	virtual void add(int index, T x);
+	virtual T remove(int index);
 	virtual void resize();
 
 };
@@ -47,7 +47,7 @@ void ArrayStack<T>::add(int index, T x) {
 	//shift elements 1 position O(n - index). best to do reversed, not as much temporary variables
 	//loop starts from last element + 1 in the ArrayStack: should be something like garbage value, and it will be overwritten. This is different from the inner array last index
 	for (int i = _n_elements; i > index; --i) {
-		a[i] = a[a - 1];
+		a[i] = a[i - 1];
 	}
 	//adding new value
 	a[index] = x;
@@ -87,6 +87,7 @@ public:
 	using ArrayStack<T>::_n_elements; using ArrayStack<T>::a;
 	void resize() override;
 	void add(int index, T x) override;
+	T remove(int index) override;
 };
 
 template<class T>
@@ -98,9 +99,21 @@ void FastArrayStack<T>::resize() {
 
 template<class T>
 void FastArrayStack<T>::add(int index, T x) {
-	std::copy(a + index, a + _n_elements, a + index + 1);
+	if (_n_elements + 1 > a._size)
+		resize();
+	std::copy_backward(a + index, a + _n_elements, a + index + 1);//[first, last) : first included, last not included
 	a[index] = x;
-	//todo: check this from the book
+	_n_elements++;
+}
+
+template<class T>
+T FastArrayStack<T>::remove(int index) {
+	T x = a[index];
+	std::copy(a + index + 1, a + _n_elements, a + index);
+	_n_elements--;
+	if (a._size > 3 * _n_elements)
+		resize();
+	return x;
 }
 
 //template<class T>

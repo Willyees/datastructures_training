@@ -57,7 +57,6 @@ struct c : a{
 
 int main() {
 	
-	FastArrayStack<int> i;
 	//remove items from vector
 	//vec.erase(std::remove(vec.begin(), vec.end(), &o), vec.end()); //erase by value
 
