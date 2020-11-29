@@ -12,6 +12,7 @@ public:
 	void add(int i, T x);
 	T remove(int i);
 	void resize();
+	int size();
 };
 
 template<class T>
@@ -76,4 +77,38 @@ void ArrayDeque<T>::resize() {
 	_j = 0;
 }
 
+template<class T>
+int ArrayDeque<T>::size() {
+	return _n_elements;
+}
 
+//bound deque that cannot resize itself
+template<class T>
+class BDeque : public ArrayDeque<T> {
+	Array<int> a;
+public:
+	int n_elements;
+	int j;
+
+	virtual ~BDeque() {}
+	BDeque() { std::cout << "default constructor bdeque" << std::endl; }
+	BDeque(int size) : n_elements(0), j(0) {
+		std::cout << "paramether constructor bdeque" << std::endl;
+		Array<int> z(size + 1);
+		a = z;
+	}
+	void add(int i, T x);
+	bool add(T x);
+	void resize() {};
+};
+
+template<class T>
+bool BDeque<T>::add(T x) {
+	ArrayDeque<int>::add(n_elements, x);
+	return true;
+}
+
+template<class T>
+void BDeque<T>::add(int i, T x) {
+	ArrayDeque<T>::add(i, x);
+}

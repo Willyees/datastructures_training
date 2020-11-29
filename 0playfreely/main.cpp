@@ -12,6 +12,7 @@
 #include "array_stack.h"
 #include "array_queue.h"
 #include "array_deque.h"
+#include "dllist.h"
 #include <algorithm>
 
 //declaring functions where are contained the excercises (extern is not needed, but gives a better idea)
@@ -58,7 +59,7 @@ struct c : a{
 
 
 int main() {
-	//ArrayDeque<int> d;
+
 	//remove items from vector
 	//vec.erase(std::remove(vec.begin(), vec.end(), &o), vec.end()); //erase by value
 
