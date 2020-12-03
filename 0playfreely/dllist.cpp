@@ -1,3 +1,3 @@
 #include "dllist.h"
 
-SEList<int> sel_i;
+SEList<int> sel_i(5);

@@ -2,7 +2,7 @@
 #include "array.h"
 #include <algorithm>
 
-
+//resizable array. can add and remove at any position O(n- i)
 template<class T>
 class ArrayStack {
 protected:
@@ -115,6 +115,4 @@ T FastArrayStack<T>::remove(int index) {
 		resize();
 	return x;
 }
-
-//template<class T>
 

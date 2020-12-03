@@ -14,6 +14,7 @@ public:
 	void resize();	
 	T front();
 	T back();
+	int size();
 };
 
 //add next element either after the previous element or wrap around at the beginning of the array. This is acheived with the mod operator
@@ -64,5 +65,10 @@ T ArrayQueue<T>::front() {
 template<class T>
 T ArrayQueue<T>::back() {
 	return _a[(_j + _n_elements -1) % _a.size];
+}
+
+template<class T>
+int ArrayQueue<T>::size() {
+	return _n_elements;
 }
 

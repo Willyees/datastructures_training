@@ -148,6 +148,8 @@ public:
 	T get(int i);
 	T set(int i, T x);
 	void add(T x);
+	void add(int i, T x);//add at specific index
+	Node* addBefore(Node* node);
 };
 
 template<class T>
@@ -203,6 +205,52 @@ template<class T>
 void SEList<T>::add(T x) {
 	Node* last = dummy.previous;
 	if (last == &dummy || last->d.size() == length_deque + 1) {//check if last block is full or no blocks yet
-		last = addBefore(&dummy);//todo:create new addbefore method that only insert a new clean node
+		last = addBefore(&dummy);
 	}
+	last->d.add(x);
+	n_elements++;
 }
+
+template<class T>
+typename SEList<T>::Node* SEList<T>::addBefore(Node* node) {
+	Node* new_node = new Node(length_deque);
+	new_node->previous = node->previous;
+	new_node->next = node;
+	node->previous->next = new_node;
+	node->previous = new_node;
+	return new_node;
+}
+
+//add element x at specific index i. 3 cases can happen:
+//1. find a node in < b steps (b: length_deque), shift 
+//2. found the end of the node in < b steps. Add new empty block and shift 
+//3. 
+template<class T>
+void SEList<T>::add(int i, T x) {
+	if (i == n_elements) {//special case: add at the end of the list because 'i' is the last index
+		add(x);
+		return;
+	}
+	Location l;
+	getLocation(i, l);
+	Node* node = l.node;
+	int r = 0;
+	while (r < length_deque && node != &dummy && node->d.size() == length_deque + 1) {
+		node = node->next;
+		r++;
+	}
+	if (r == length_deque) {
+		//spread(l.node);
+		//node = l.node;
+	}
+	if (node == &dummy) {//ran off to the end, add new node
+		node = addBefore(node);
+	}
+	while (node != l.node) {//work backwards shifting elements
+		node->d.add(0, node->previous->d.remove(node->previous->d.size() - 1));
+		node = node->previous;
+	}
+	node->d.add(l.j, x);
+	n_elements++;
+}
+//not finished. missing spread, delete functionalities

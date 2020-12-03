@@ -13,6 +13,7 @@ public:
 
 	Array();
 	Array(size_t size);
+	Array(size_t size, T init);
 	T& operator[](int i);
 
 	Array<T>* operator=(Array<T>&& b);
@@ -35,6 +36,15 @@ template<class T>
 Array<T>::Array(size_t size) : size(size) {
 	std::cout << "size_t constr" << std::endl;
 	_pos = new T[size];
+}
+
+template<class T>
+Array<T>::Array(size_t size, T init) {
+	this->size = size;
+	_pos = new T[size];
+	for (int i = 0; i < size; ++i) {
+		_pos[i] = init;
+	}
 }
 
 //operators overloading

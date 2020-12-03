@@ -14,6 +14,8 @@
 #include "array_deque.h"
 #include "dllist.h"
 #include <algorithm>
+#include "binary_search_tree.h"
+#include "treap.h"
 
 //declaring functions where are contained the excercises (extern is not needed, but gives a better idea)
 namespace tut {
@@ -59,7 +61,13 @@ struct c : a{
 
 
 int main() {
+	TreapNodeUsable<int> treapNode1;
+	TreapUsable<int> treap;
+	treap.display(&treapNode1);
 
+	//for (auto e : vi1) {
+	//	cout << e << endl;
+	//}
 	//remove items from vector
 	//vec.erase(std::remove(vec.begin(), vec.end(), &o), vec.end()); //erase by value
 
