@@ -18,6 +18,7 @@ protected:
 	int n;//#of elements in the tree
 	void splice(Node* node);//removing node and adding its child to node->parent
 	T null;
+	bool add(Node* node);
 public:
 	T findEQ(T x);
 	Node* findLast(T x);
@@ -122,6 +123,13 @@ void BinarySearchTree<T, Node>::splice(Node* node) {
 	if (s != this->nil)//if child not null set reference to the parent
 		s->parent = previous;//only modify value of child if is not nil. otherwise it means that the parent ('node') was a leaf
 	n--;
+}
+
+template<class T, class Node>
+bool BinarySearchTree<T, Node>::add(Node* node) {
+	Node* parent = findLast(node->data);//this element should not exist, so return leaf
+	addChild(parent, node);
+
 }
 
 template<class T, class Node>
