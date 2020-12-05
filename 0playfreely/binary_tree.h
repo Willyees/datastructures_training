@@ -19,6 +19,10 @@ protected:
 	Node* r;//root node
 	Node* nil;//null-like node
 public:
+	BinaryTree();
+	BinaryTree(Node* nil);
+	~BinaryTree();
+	void clear();
 	int depth(Node* u);
 	int size(Node* u);
 	int height(Node* u);
@@ -26,6 +30,58 @@ public:
 	void traverse2();
 	void bfTraverse();//breadth - first
 };
+
+//set nil value as harcoded nullptr and root as a nil
+template<class Node>
+BinaryTree<Node>::BinaryTree() {
+	nil = nullptr;
+	r = nil;
+}
+
+//user specifies the nil value
+template<class Node>
+BinaryTree<Node>::BinaryTree(Node* nil) {
+	this->nil = nil;
+	r = nil;
+}
+
+template<class Node>
+BinaryTree<Node>::~BinaryTree() {
+	clear();
+}
+
+//traverse the tree in order. every new node encountered is deleted until the current node is nil
+//order to traverse: parent, left, right
+template<class Node>
+void BinaryTree<Node>::clear() {
+	Node* node = r;
+	Node* previous = nil;
+	Node* next = nil;
+
+	while (node != nil) {
+		if (previous == node->parent) {
+			if (node->left != nil)
+				next = node->left;
+			else if (node->right != nil)
+				next = node->right;
+			else
+				next = node->parent;
+		}
+		else if (previous == node->left) {
+			if (node->right != nil)
+				next = node->right;
+			else
+				next = node->parent;
+		}
+		else
+			next = node->parent;
+		previous = node;
+		if (next == node->parent)//start deleting when the tree is being unwinded, going up to the parent so it will not delete refenrences to children before visiting them
+			delete node;
+		node = next;
+	}
+	r = nil;
+}
 
 template<class Node>
 int BinaryTree<Node>::depth(Node* u) {

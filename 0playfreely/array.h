@@ -15,6 +15,7 @@ public:
 	Array(size_t size);
 	Array(size_t size, T init);
 	T& operator[](int i);
+	void swap(int i, int k);
 
 	Array<T>* operator=(Array<T>&& b);
 	Array<T>* operator=(Array<T>& b);//not using copy, it references the move operator
@@ -52,6 +53,13 @@ template<class T>
 T& Array<T>::operator[](int i) {
 	assert(i < size && i >= 0);
 	return _pos[i];
+}
+
+template<class T>
+void Array<T>::swap(int i, int k) {
+	T temp = a[i];
+	a[i] = a[k];
+	a[k] = temp;
 }
 
 //returns a pointer to the element at ith position
