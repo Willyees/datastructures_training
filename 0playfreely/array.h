@@ -57,9 +57,9 @@ T& Array<T>::operator[](int i) {
 
 template<class T>
 void Array<T>::swap(int i, int k) {
-	T temp = a[i];
-	a[i] = a[k];
-	a[k] = temp;
+	T temp = _pos[i];
+	_pos[i] = _pos[k];
+	_pos[k] = temp;
 }
 
 //returns a pointer to the element at ith position

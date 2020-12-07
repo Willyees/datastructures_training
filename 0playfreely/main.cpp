@@ -16,6 +16,9 @@
 #include <algorithm>
 #include "binary_search_tree.h"
 #include "treap.h"
+#include "search_alg.h"
+#include "sort_alg.h"
+#include "sort_alg.h"
 
 //declaring functions where are contained the excercises (extern is not needed, but gives a better idea)
 namespace tut {
@@ -61,10 +64,14 @@ struct c : a{
 
 
 int main() {
-	TreapNodeUsable<int> treapNode1;
-	TreapUsable<int> treap;
-	treap.display(&treapNode1);
+	//run_all_tests();
 
+	std::vector<int> v1{ 5 };
+	std::vector<int> v2{ 3 };
+	;
+	std::vector<int> vi{ 5,6,1,0,9,7,11,4 };
+
+	run_all_tests();
 	//for (auto e : vi1) {
 	//	cout << e << endl;
 	//}
