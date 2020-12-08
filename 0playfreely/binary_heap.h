@@ -1,5 +1,7 @@
 #pragma once
+
 #include "array.h"
+#include <algorithm>
 
 template<class T>
 class BinaryHeap {
@@ -9,16 +11,31 @@ protected:
 	void trickleDown(int i);
 	void bubbleUp(int i);
 public:
-	BinaryHeap() {}
+	BinaryHeap() : n(0) {}
+	BinaryHeap(Array<T>);
 	int left(int i);
 	int right(int i);
 	int parent(int i);
 	bool add(T x);
 	T remove();
 	void resize();
+	void display();//display by level order
 };
 
 
+
+template<class T>
+BinaryHeap<T>::BinaryHeap(Array<T> b) {
+	//copy values from b into internal array (move constructor)
+	a = b;
+	n = a.size;
+	//starting from the last parent available because if it would start from the root the heap property would not be respected
+	//each level contains double the previous. last level has only children so cannot trickle down. # children = total / 2 + 1
+	//so only iterating over parents reversed
+	for (int i = n / 2 - 1; i >= 0; --i) {
+		trickleDown(i);
+	}
+}
 
 template<class T>
 int BinaryHeap<T>::left(int i) {
@@ -68,32 +85,43 @@ template<class T>
 void BinaryHeap<T>::resize() {
 	//2 cases: downsize, upsize. They are both based on number of elements n (so is still calculated in the same way: n_new = n * 2)
 	//upsize
-	int new_size = std::max((int) a.size * 2, 1);
+	int new_size = (std::max)((int)a.size * 2, 1);
 	Array<T> b(new_size);
 	std::copy(a + 0, a + n, b + 0);
 	a = b;
 }
 
+template<class T>
+void BinaryHeap<T>::display() {
+	a.d_get_structure_a();
+}
+
 //move downwards the value at position i, until it is the smaller than its two children
 //parent is swapped with smalled of the two children
 template<class T>
-void BinaryHeap<T>::trickleDown(int i) {
-	if (left(i) > n || right(i) > n)
-		return;
-	int l;
-	int r;
+void BinaryHeap<T>::trickleDown(int i) {//heapify
 
-	while (a[l] < a[i] || a[i] < a[i]) {
-		l = left(i);
-		r = right(i);
-		if (l > n || r > n)
-			return;
-		//find smallest child and swap
-		if (a[l] < a[r]) {
-			a.swap(l, i);
+	int swap_i = 0;//flag like value that is only set in case the right or left child can be swapped
+	//before accessing either left or right child, have to be sure that they are not available. cannot set this condition in while statement because it would not let to trickledown on a subtree with only 1 child
+	while (i>=0) {//have to check that both left and right are available, it could be that the right child is not set
+		swap_i = -1;
+
+		int l = left(i);
+		int r = right(i);
+		
+		if (r < n && a[r] < a[i]) {//start with r, because its internal index > left. so next if statement don't need to check if l < n
+			//find smallest child and swap
+			if (a[r] < a[l])
+				swap_i = r;
+			else
+				swap_i = l;
 		}
 		else {
-			a.swap(r, i);
+			if (l < n && a[l] < a[i])
+				swap_i = l;
 		}
+		if (swap_i >= 0)
+			a.swap(i, swap_i);
+		i = swap_i;
 	}
 }

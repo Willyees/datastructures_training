@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <assert.h>
+#include <algorithm>
 /*
 implementation of array data structure. similar as [] but keeps a count of number of elements*/
 template<class T> 
@@ -14,6 +15,8 @@ public:
 	Array();
 	Array(size_t size);
 	Array(size_t size, T init);
+	explicit Array(T b[], size_t);
+	Array(const Array<T>&) = default;
 	T& operator[](int i);
 	void swap(int i, int k);
 
@@ -46,6 +49,14 @@ Array<T>::Array(size_t size, T init) {
 	for (int i = 0; i < size; ++i) {
 		_pos[i] = init;
 	}
+}
+
+//copy all the elements in the internal array
+template<class T>
+Array<T>::Array(T b[], size_t size) {
+	_pos = new T[size];
+	this->size = size;
+	std::copy(b, b + size, _pos);
 }
 
 //operators overloading

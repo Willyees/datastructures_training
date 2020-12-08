@@ -3,6 +3,8 @@
 #include <alg.h>
 #include <assert.h>
 #include <algorithm>
+#include "binary_heap.h"
+#include "array.h"
 
 //declarations
 namespace SortAlgorithms {
@@ -22,7 +24,7 @@ template<class T>
 void quickSort(std::vector<T>&);
 
 template<class T>
-void countSort(std::vector<T>&);
+void countSort(std::vector<T>&);//O(N + K). N: v K: v1(length: max(v)); O(N + max(v))
 }
 
 
@@ -200,6 +202,15 @@ template<class T>
 		}
 
 	}
+
+	//load the vector in a binary heap. reinforce the max-heap property (parent > both children) looping from the last parent upwards.
+	//swap root heap with last element, remove the old root and heapify (trickledown) the new root
+	//all the removed values form the ordered vector
+	template<class T>
+	void heapSort(std::vector<T>& v) {
+		BinaryHeap<T> bh(Array<T>(&v[0], v.size()));
+		assert(true);
+	}
 }
 
 
@@ -213,3 +224,4 @@ void merge_sort(std::vector<int>&);
 void quick_sort(std::vector<int>&);
 template<class T>
 void count_sort(std::vector<T>&);
+void heap_sort(std::vector<int>&);

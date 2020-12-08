@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include <iostream>
 #include <vector>
 #include "objs.h"
@@ -7,6 +8,7 @@
 #include <stack>
 #include <queue>
 #include <map>
+#include <algorithm>
 #include "excercises.h"
 #include "array.h"
 #include "array_stack.h"
@@ -19,6 +21,7 @@
 #include "search_alg.h"
 #include "sort_alg.h"
 #include "sort_alg.h"
+#include <iterator>
 
 //declaring functions where are contained the excercises (extern is not needed, but gives a better idea)
 namespace tut {
@@ -63,6 +66,8 @@ struct c : a{
 };
 
 
+void t1(int* p) { cout << p[1] << endl; }
+void t2(int p[]) { cout << p[1] << endl; }
 int main() {
 	//run_all_tests();
 
@@ -70,8 +75,11 @@ int main() {
 	std::vector<int> v2{ 3 };
 	;
 	std::vector<int> vi{ 5,6,1,0,9,7,11,4 };
-
-	run_all_tests();
+	int a[] = { 5,6,1,0,9,7,11,4 };
+	Array<int> ai(a,8);
+	BinaryHeap<int> bh(ai);
+	bh.display();
+	//SortAlgorithms::heapSort(vi);
 	//for (auto e : vi1) {
 	//	cout << e << endl;
 	//}
