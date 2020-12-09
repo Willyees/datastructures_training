@@ -1,5 +1,4 @@
 #pragma once
-
 #include "array.h"
 #include <algorithm>
 
@@ -12,7 +11,7 @@ protected:
 	void bubbleUp(int i);
 public:
 	BinaryHeap() : n(0) {}
-	BinaryHeap(Array<T>);
+	BinaryHeap(Array<T>&);
 	int left(int i);
 	int right(int i);
 	int parent(int i);
@@ -20,12 +19,14 @@ public:
 	T remove();
 	void resize();
 	void display();//display by level order
+	static void sort(Array<T>&);
+	Array<T> get_array();
 };
 
 
 
 template<class T>
-BinaryHeap<T>::BinaryHeap(Array<T> b) {
+BinaryHeap<T>::BinaryHeap(Array<T>& b) {
 	//copy values from b into internal array (move constructor)
 	a = b;
 	n = a.size;
@@ -94,6 +95,23 @@ void BinaryHeap<T>::resize() {
 template<class T>
 void BinaryHeap<T>::display() {
 	a.d_get_structure_a();
+}
+
+template<class T>
+void BinaryHeap<T>::sort(Array<T>& b) {
+	BinaryHeap<T> h(b);
+	while (h.n > 1) {
+		h.a.swap(0, h.n - 1);
+		h.n--;
+		h.trickleDown(0);
+	}
+	b = h.get_array();
+	b.reverse();
+}
+
+template<class T>
+Array<T> BinaryHeap<T>::get_array() {
+	return a;
 }
 
 //move downwards the value at position i, until it is the smaller than its two children

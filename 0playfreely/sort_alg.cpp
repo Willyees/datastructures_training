@@ -46,6 +46,25 @@ void count_sort(std::vector<T>& v) {
 	print_vector(v);
 }
 
+template<class T>
+void heap_sort(std::vector<T>& v) {
+	std::cout << "Heap sort test:" << std::endl;
+	SortAlgorithms::heapSort(v);
+	print_vector(v);
+}
+
+void bucket_sort(std::vector<int>& v) {
+	std::cout << "Bucket sort test:" << std::endl;
+	SortAlgorithms::bucketSort(v);
+	print_vector(v);
+}
+
+void radix_sort(std::vector<int>& v) {
+	std::cout << "Radix sort test:" << std::endl;
+	SortAlgorithms::radixSort(v);
+	print_vector(v);
+}
+
 void run_all_tests() {
 	//print vector unsorted
 	std::cout << "unsorted vector: ";
@@ -56,8 +75,18 @@ void run_all_tests() {
 	insertion_sort(vi);
 	merge_sort(vi);
 	count_sort(vi);
-
+	heap_sort(vi);
+	bucket_sort(vi);
+	radix_sort(vi);
 
 }
 
+
+namespace SortAlgorithms { namespace helper {
+	int hash(int e, int size) {
+		return e / 3;
+	}
+
+
+}}
  

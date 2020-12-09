@@ -19,14 +19,15 @@ public:
 	Array(const Array<T>&) = default;
 	T& operator[](int i);
 	void swap(int i, int k);
+	void reverse();
 
 	Array<T>* operator=(Array<T>&& b);
 	Array<T>* operator=(Array<T>& b);//not using copy, it references the move operator
 	T* operator+(int i);
-
+	T* get_pos() { return _pos; }
 	//debug
-	void d_get_size_a();
-	void d_get_structure_a();
+	void d_print_size_a();
+	void d_print_structure_a();
 };
 
 /*
@@ -73,6 +74,12 @@ void Array<T>::swap(int i, int k) {
 	_pos[k] = temp;
 }
 
+template<class T>
+void Array<T>::reverse() {
+	for (int i = 0; i < size / 2; ++i)
+		swap(i, size - i - 1);
+}
+
 //returns a pointer to the element at ith position
 template<class T>
 T* Array<T>::operator+(int i) {
@@ -96,11 +103,11 @@ Array<T>* Array<T>::operator=(Array<T>& b) {
 }
 
 template<class T>
-void Array<T>::d_get_size_a() { std::cout << size << std::endl; }
+void Array<T>::d_print_size_a() { std::cout << size << std::endl; }
 
 //DEBUG
 template<class T>
-void Array<T>::d_get_structure_a() {
+void Array<T>::d_print_structure_a() {
 	std::cout << "-----" << std::endl;
 	for (T* i = _pos; i != (_pos + size); ++i)
 		std::cout << *i << std::endl;

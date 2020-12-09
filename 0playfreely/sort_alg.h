@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "binary_heap.h"
 #include "array.h"
+#include <string>
+#include <sstream>
 
 //declarations
 namespace SortAlgorithms {
@@ -25,6 +27,13 @@ void quickSort(std::vector<T>&);
 
 template<class T>
 void countSort(std::vector<T>&);//O(N + K). N: v K: v1(length: max(v)); O(N + max(v))
+
+template<class T>
+void bucketSort(std::vector<T>&);
+
+//T not very flexible: each type of data might need a different radix sort ~ check this
+template<class T>//O((N + B) * logb(maxx))
+void radixSort(std::vector<T>&);
 }
 
 
@@ -76,7 +85,9 @@ template<class T>
 			int j = i;//index for the current element being moved behind until is at the correct position
 			while (j > 0 && v[j] < v[j - 1]) {
 				//move previous element forward of one position
-				v[j - 1] = temp;
+				/*v[j - 1] = temp;
+				j--;*/
+				v[j] = v[j - 1];
 				j--;
 			}
 			v[j] = temp;//moving the element at old position j to its correct position. doing it outside while becasue is only needed to be swapped once
@@ -203,14 +214,102 @@ template<class T>
 
 	}
 
+	
 	//load the vector in a binary heap. reinforce the max-heap property (parent > both children) looping from the last parent upwards.
 	//swap root heap with last element, remove the old root and heapify (trickledown) the new root
 	//all the removed values form the ordered vector
 	template<class T>
 	void heapSort(std::vector<T>& v) {
-		BinaryHeap<T> bh(Array<T>(&v[0], v.size()));
-		assert(true);
+		Array<T> a(&v[0], v.size());
+		BinaryHeap<T>::sort(a);
+		a.d_print_structure_a();
+		std::copy(a.get_pos(), a.get_pos() + a.size, &v[0]);
 	}
+
+	namespace helper {
+		int hash(int e, int size);
+	}
+
+	template<class T>
+	void bucketSort(std::vector<T>& v) {
+		std::vector<std::vector<T>> b(v.size());
+		for (int i = 0; i < v.size(); ++i) {
+			b[helper::hash(v[i], b.size())].push_back(v[i]);
+		}
+		//sort each bucket 
+		int v_index = 0;
+		for (int i = 0; i < b.size(); ++i) {
+			if (b[i].empty())
+				continue;
+			insertionSort(b[i]);
+			for (int j = 0; j < b[i].size(); ++j)
+				v[v_index++] = b[i][j];
+		}
+	}
+	namespace helper {
+		//place: index posiotion used to compare the elements in v (xes: one's: 0, ten's: 1, hundred's: 2, etc..)
+		//size: frequencies array size (in radixsort is dictated by the number of different possible elements, xes: uinteger: 10 {0..9})
+		//it uses a frequencies vector that is loaded with the values from v and set them in the correct freq[index] based on the place specified. could directly input the values in a vector(size:v.size) but much more space than frequencies
+		template<class T>
+		void radixCountSort(std::vector<T>& v, int place, int size) {
+			std::vector<int> frequencies(size, 0);
+			for (int i = 0; i < v.size(); ++i) {
+				const std::string s_temp = std::to_string(v[i]);
+				if (s_temp.size() - 1 < place)//element has not enough values as the maxx element, it will be put in frequencies[0]
+					frequencies[0]++;
+				else {
+					std::stringstream s_stream;
+					s_stream << s_temp[s_temp.size() - place - 1];
+					int index;
+					s_stream >> index;
+					frequencies[index]++;//this wont work unless T is integer. todo: group of functions to transform to integer
+				}
+			}
+			std::vector<T> auxiliary(v.size());
+			//update the frequencies to reflect the index where the item stored in the frequency should be put in the auxiliary array
+			//- 1 because vector is 0 based (this just fixes the positions). for example first element (1) should be in the frequency[0] = 1 - 0 = 0, which is the position that should be put in auxiliary
+			frequencies[0] -= 1;
+			for (int i = 1; i < frequencies.size(); ++i) {
+				frequencies[i] += frequencies[i - 1];
+			}
+			
+			for (int i = v.size() - 1; i >=0; --i) {
+				std::string s_temp = std::to_string(v[i]);
+				if (s_temp.size() - 1 < place) {//element has not enough values as the maxx element, it will be put in frequencies[0]
+					auxiliary[frequencies[0]] = v[i];
+					frequencies[0]--;
+				}
+				else{
+					std::stringstream s_stream;
+					int index_f;
+					s_stream << s_temp[s_temp.size() - place - 1];
+					s_stream >> index_f;
+					auxiliary[frequencies[index_f]] = v[i];
+					frequencies[index_f]--;
+				}
+			}
+			//copy it back in the input vector
+			std::copy(auxiliary.begin(), auxiliary.end(), v.begin());
+		}
+	}
+
+	template<class T>
+	void radixSort(std::vector<T>& v) {
+		//find the maximum number of digits
+		//std::max_element(v.begin(), b.end());
+		T max = v[0];
+		for (int i = 1; i < v.size(); ++i) {//could do this while calculating first ones's iteration
+			if (v[i] > max) max = v[i];
+		}
+		//count the values in max
+		std::string s = std::to_string(max);
+		int maxx = s.size();
+
+		for (int i = 0; i <= maxx; ++i) {
+			helper::radixCountSort(v, i, 10);//hardcoding 10 for integer sizes
+		}
+	}
+
 }
 
 
@@ -224,4 +323,7 @@ void merge_sort(std::vector<int>&);
 void quick_sort(std::vector<int>&);
 template<class T>
 void count_sort(std::vector<T>&);
-void heap_sort(std::vector<int>&);
+template<class T>
+void heap_sort(std::vector<T>&);
+void bucket_sort(std::vector<int>&);
+void radix_sort(std::vector<int>&);

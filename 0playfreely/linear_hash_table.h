@@ -1,3 +1,4 @@
+#pragma once
 #include "array.h"
 
 //open addressing hash table. each position only contains 1 element
