@@ -21,6 +21,8 @@
 #include "search_alg.h"
 #include "sort_alg.h"
 #include <sstream>
+#include <list>
+#include "graph.h"
 
 
 //declaring functions where are contained the excercises (extern is not needed, but gives a better idea)
@@ -65,23 +67,40 @@ struct c : a{
 	void f();
 };
 
+template<class T, class V>
+class asd{};
 
-void t1(int* p) { cout << p[1] << endl; }
-namespace t3 {
-	
-	void t1(int* p) { cout << p[1] << endl; }
-}
+
+template<class T>
+class asd<T,T> {};
+
+
 void t2(int p[]) { cout << p[1] << endl; }
 int main() {
 	//run_all_tests();
-
+	std::list<int> l;
 	std::vector<int> v1{ 5 };
 	std::vector<int> v2{ 3 };
 	;
 	std::vector<int> vi{ 5,6,1,0,9,7,11,4 };
 	int a[] = { 5,6,1,0,9,7,11,4 };
-	radix_sort(vi);
-
+	Graph g(9);
+	g.addEdge(1, 2);
+	g.addEdge(2, 3);
+	g.addEdge(3, 4);
+	g.addEdge(4, 5);
+	g.addEdge(4, 6);
+	g.addEdge(0, 1);
+	g.addEdge(7, 8);
+	std::list<int> pred;
+	deapthFirstSearch(g, 0, pred);
+	for (auto e : pred)
+		cout << e << endl;
+	std::list<int> pred1;
+	depthFirstSearchColours(g, 0, pred1);
+	cout << "-------" << endl;
+	for (auto e : pred1)
+		cout << e << endl;
 	//for (auto e : vi1) {
 	//	cout << e << endl;
 	//}
@@ -104,6 +123,5 @@ int main() {
 		std::cout << "items: " << e->name << std::endl;
 	}
 	*/
-
 	return 0;
 }
