@@ -71,7 +71,7 @@ void SLListQueue<T>::push(T data) {
 
 template<class T>
 T SLListQueue<T>::pop() {
-	if (_n_elements == nullptr)
+	if (_n_elements == 0)
 		return 0;
 	T x = head->data;
 	Node<T>* next = head->next;
@@ -96,6 +96,7 @@ protected:
 
 	Node* head;
 public:
+	SLListStack() : head(nullptr) {}
 	void push(T data);
 	T pop();
 	T peek();
@@ -104,15 +105,26 @@ public:
 
 template<class T>
 void SLListStack<T>::push(T data) {
-
+	Node* node = new Node(data);
+	if(head != nullptr)
+		node->next = head;
+	head = node;
 }
 
 template<class T>
 T SLListStack<T>::pop() {
-	return T();
+	if (head != nullptr)
+		return 0;
+	T x = head->data;
+	Node* new_head = head->next;
+	delete head;
+	head = new_head;//could be nullptr if there is not a 2nd node. this case is handled
+	return x;
 }
 
 template<class T>
 T SLListStack<T>::peek() {
-	return T();
+	if (head == nullptr)
+		return 0;
+	return head->data;
 }

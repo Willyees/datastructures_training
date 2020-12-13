@@ -77,6 +77,9 @@ class asd<T,T> {};
 
 void t2(int p[]) { cout << p[1] << endl; }
 int main() {
+	cout << sizeof(char) << endl;
+	cout << sizeof(int) << endl;
+	cout << sizeof(short) << endl;
 	//run_all_tests();
 	std::list<int> l;
 	std::vector<int> v1{ 5 };
@@ -92,15 +95,20 @@ int main() {
 	g.addEdge(4, 6);
 	g.addEdge(0, 1);
 	g.addEdge(7, 8);
-	std::list<int> pred;
-	deapthFirstSearch(g, 0, pred);
+	std::vector<int> visits;
+	std::vector<int> pred;
+	deapthFirstSearch(g, 0, visits, pred);
 	for (auto e : pred)
 		cout << e << endl;
-	std::list<int> pred1;
-	depthFirstSearchColours(g, 0, pred1);
-	cout << "-------" << endl;
-	for (auto e : pred1)
-		cout << e << endl;
+
+	cout << "***" << endl;
+	//find path from 0 to 6
+	int first = 0;
+	int last = 6;
+
+	while (last != first) {
+		cout << (last = pred[last]) << endl;
+	}
 	//for (auto e : vi1) {
 	//	cout << e << endl;
 	//}

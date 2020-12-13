@@ -1,4 +1,5 @@
 #include <list>
+#include <vector>
 enum vertexColor { White, Grey, Black };
 enum edgeType { Tree, Backward, Forward, Cross };
 typedef std::pair<int, int> Vertex;//pair<int vertex 'id', int weight>
@@ -29,9 +30,12 @@ public:
 };
 
 
-void deapthFirstSearch(Graph& g, int r, std::list<int>&);
-void dfsVisit(Graph& g, int u, bool* seen, std::list<int>& pred);
+void deapthFirstSearch(Graph& g, int r, std::vector<int>&, std::vector<int>&);//O(N+E)
+void dfsVisit(Graph& g, int u, bool* seen, std::vector<int>&, std::vector<int>&);//O(N+E)
 
 //not using recursion
-void depthFirstSearchColours(Graph& g, int r, std::list<int>& q);
-//void dfsVisitColours(Graph& g, int r, std::list<int>& q, int* colours);
+void depthFirstSearchColours(Graph& g, int r, std::list<int>& q);//O(N+E)
+
+void breadthFirstSearch(Graph& g, int r, std::vector<int>& q);//O(N + E)
+
+void mstPrim(Graph& g, std::vector<int>& pred);

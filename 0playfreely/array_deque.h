@@ -34,7 +34,7 @@ void ArrayDeque<T>::add(int i, T x) {
 	//checking if i is before or after middle of _n_elements, then make space for it by just moving _n_elements / 2 elements
 	if (i < (_n_elements / 2)) { //shift a[0] .. a[i - 1] 1 space left
 		_j = (_j == 0) ? _a.size - 1 : _j - 1;
-		for (int k = 0; k < i; ++k) {
+		for (int k = 0; k < i - 1; ++k) {
 			_a[(_j + k) % _a.size] = _a[(_j + k + 1) % _a.size];
 		}
 	}
@@ -43,6 +43,7 @@ void ArrayDeque<T>::add(int i, T x) {
 			_a[(_j + k) % _a.size] = _a[(_j + k - 1) % _a.size];
 		}
 	}
+	//the final a[i] element is the newly inserted 'x'
 }
 
 template<class T>
